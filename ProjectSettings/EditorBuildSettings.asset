@@ -6,8 +6,8 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/whitebox.unity
-    guid: 99c9720ab356a0642a771bea13969a05
+    path: Assets/Scenes/PuzzleScene.unity
+    guid: bdafaff26c4d6a940b0524bbb4f4a9f5
   m_configObjects:
     Unity.XR.PXR.Settings: {fileID: 11400000, guid: f348f2881c1850d449941eea7ccc260b,
       type: 2}

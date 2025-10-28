@@ -1,19 +1,73 @@
-using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
+using UnityEngine.XR.Interaction.Toolkit;
 
+[RequireComponent(typeof(XRGrabInteractable))]
 public class Bottle : MonoBehaviour
 {
-    public int id;
-    // Start is called before the first frame update
-    void Start()
+    public int bottleID;
+
+    private XRGrabInteractable grabInteractable;
+    private Rigidbody rb;
+    private BottleSlot currentSlot;
+
+    private void Awake()
     {
-        
+        grabInteractable = GetComponent<XRGrabInteractable>();
+        rb = GetComponent<Rigidbody>();
+
+        // 初始状态：不在插槽中，启用物理
+        rb.isKinematic = false;
+        rb.useGravity = true;
+
+        grabInteractable.selectEntered.AddListener(OnGrab);
     }
 
-    // Update is called once per frame
-    void Update()
+    private void OnGrab(SelectEnterEventArgs args)
     {
-        
+        if (currentSlot != null)
+        {
+            currentSlot.OccupyingBottle = null;
+            currentSlot = null;
+        }
+
+        rb.isKinematic = false;
+    }
+
+    public void SnapToSlot(BottleSlot slot)
+    {
+        if (currentSlot != null)
+        {
+            currentSlot.OccupyingBottle = null;
+        }
+
+        currentSlot = slot;
+        slot.OccupyingBottle = this;
+
+        // 移动到插槽位置
+        transform.SetParent(slot.transform);
+        transform.localPosition = Vector3.zero;
+        transform.localRotation = Quaternion.identity;
+
+        // 放入插槽后，禁用物理（固定位置）
+        rb.isKinematic = true;
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        // 只有在未被抓取的状态下才检测吸附
+        if (!grabInteractable.isSelected && other.TryGetComponent(out BottleSlot slot))
+        {
+            // 插槽为空时才吸附
+            if (slot.OccupyingBottle == null)
+            {
+                SnapToSlot(slot);
+                BottlePuzzleManager.Instance.CheckCompletion();
+            }
+        }
+    }
+
+    private void OnDestroy()
+    {
+        grabInteractable.selectEntered.RemoveListener(OnGrab);
     }
 }
