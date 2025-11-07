@@ -2,14 +2,13 @@
 using TMPro;
 using System.Collections.Generic;
 
-public class BottlePuzzleManager : MonoBehaviour
+public class PlatePuzzleManager : MonoBehaviour
 {
-    public static BottlePuzzleManager Instance;
+    public static PlatePuzzleManager Instance;
 
-    public List<BottleSlot> allSlots; // 所有插槽（需要在Inspector中手动赋值，顺序与slotIndex对应）
+    public List<PlateSlot> allSlots; // 所有插槽（需要在Inspector中手动赋值，顺序与slotIndex对应）
     public TMP_Text feedbackText; // 显示提示信息的UI文本
     public float feedbackDuration = 3f; // 提示信息显示时间
-
     public GameObject tick;
 
     private void Awake()
