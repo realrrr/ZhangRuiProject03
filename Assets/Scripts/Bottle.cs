@@ -10,6 +10,7 @@ public class Bottle : MonoBehaviour
     private Rigidbody rb;
     private BottleSlot currentSlot;
 
+
     private void Awake()
     {
         grabInteractable = GetComponent<XRGrabInteractable>();
@@ -50,6 +51,8 @@ public class Bottle : MonoBehaviour
 
         // 放入插槽后，禁用物理（固定位置）
         rb.isKinematic = true;
+
+        Instantiate(Resources.Load("snapVfx"), transform.position, Quaternion.identity);
     }
 
     private void OnTriggerStay(Collider other)

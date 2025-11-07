@@ -58,6 +58,7 @@ public class BottlePuzzleManager : MonoBehaviour
             if (allCorrect)
             {
                 ShowFeedback("恭喜！排序正确！");
+                Instantiate(Resources.Load("successVfx"), transform.position + new Vector3(0,0.2f,0), Quaternion.identity);
             }
             else
             {
