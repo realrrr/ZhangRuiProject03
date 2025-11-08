@@ -10,9 +10,11 @@ public class Bottle : MonoBehaviour
     private Rigidbody rb;
     private BottleSlot currentSlot;
 
+    AudioSource audioSource;
 
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         grabInteractable = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
 
@@ -63,6 +65,7 @@ public class Bottle : MonoBehaviour
             // 插槽为空时才吸附
             if (slot.OccupyingBottle == null)
             {
+                audioSource.Play();
                 SnapToSlot(slot);
                 BottlePuzzleManager.Instance.CheckCompletion();
             }

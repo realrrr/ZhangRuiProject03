@@ -10,9 +10,10 @@ public class Plate : MonoBehaviour
     private Rigidbody rb;
     private PlateSlot currentSlot;
 
-
+    AudioSource audioSource;
     private void Awake()
     {
+        audioSource = GetComponent<AudioSource>();
         grabInteractable = GetComponent<XRGrabInteractable>();
         rb = GetComponent<Rigidbody>();
 
@@ -63,6 +64,7 @@ public class Plate : MonoBehaviour
             // 插槽为空时才吸附
             if (slot.OccupyingBottle == null)
             {
+                audioSource.Play();
                 SnapToSlot(slot);
                 PlatePuzzleManager.Instance.CheckCompletion();
             }
